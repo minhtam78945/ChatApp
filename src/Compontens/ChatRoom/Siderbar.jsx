@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { FaBars, FaCalendarAlt, FaAngleRight } from "react-icons/fa";
 import { AuthContenxt } from "../../context/AuthProvider";
 import { AlignLeftOutlined } from "@ant-design/icons";
+import RomList from "./RoomList";
 
 function SiderBar() {
   const [isMenu, setMenu] = useState(false);
@@ -17,7 +18,7 @@ function SiderBar() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 720) {
         setMenu(false);
       } else {
         setMenu(true);
@@ -31,39 +32,41 @@ function SiderBar() {
   }, []);
 
   return (
-    <div className="h-screen">
-      <FaBars
-        className="absolute text-white block cursor-pointer hover:opacity-25 mx-2 my-2 md:hidden"
-        onClick={handleMenu}
-      />
-      <div
-        className={`md:w-full h-full bg-white rounded-sm relative rounded md:block ease-in-out duration-500 ${
-          !isMenu ? "left-[-100%] " : " left-0 "
-        }`}
-      >
-        <FaAngleRight
-          className="text-black text-xl absolute right-[-4px] top-1 md:hidden cursor-pointer hover:opacity-25"
+    <>
+      <div className="menuBar ">
+        <FaBars
+          className="cursor-pointer md:hidden absolute md:top-[7px] md:left-2 left-1 top-1 "
           onClick={handleMenu}
         />
-        <div className="md:px-2 md:py-3 px-2 py-3 flex-col gap-2 w-full flex justify-between  ">
-          {/* imageUser */}
-          <div className="w-full flex gap-2 items-center md:gap-7 text-black">
+      </div>
+      <div
+        className={`h-screen w-full bg-white text-black md:relative absolute z-10 md:block duration-100 ${
+          isMenu ? "left-0" : "left-[-100%]"
+        }`}
+      >
+        <div className=" flex md:flex-row flex-col md:justify-between md:items-center md:py-4 md:mx-4 py-3 mx-2 gap-2 relative ">
+          <FaAngleRight
+            className="md:hidden absolute top-0 right-[-15px] cursor-pointer hover:opacity-20 text-amber-800 txt-lg "
+            onClick={handleMenu}
+          />
+          {/* image */}
+          <div className="flex items-center gap-3">
             <img
-              className=" md:w-7 w-7 rounded-full object-cover "
+              className="w-11 h-11 rounded-full cursor-pointer duration-100"
               src={photoURL}
-              alt="user"
+              alt="userImage"
             />
-            <span className="text-sm md:text-lg">{displayName}</span>
+            <span>{displayName}</span>
+          </div>
+          <div>
+            <button className="text-white bg-zinc-700" onClick={handleLogOut}>
+              Đăng xuất
+            </button>
           </div>
         </div>
-        <button
-          className="mx-2 text-sm md:text-lg text-white "
-          onClick={handleLogOut}
-        >
-          Đăng xuất
-        </button>
+        <RomList />
       </div>
-    </div>
+    </>
   );
 }
 
