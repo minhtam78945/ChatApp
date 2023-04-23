@@ -15,6 +15,7 @@ function AuthProvider({ children }) {
       console.log({ user });
       if (user?.uid) {
         setUser(user);
+        setLoading(false);
         localStorage.setItem("accessToken", user.accessToken);
         return;
       }
@@ -30,7 +31,7 @@ function AuthProvider({ children }) {
 
   return (
     <AuthContenxt.Provider value={{ user, setUser }}>
-      {children}
+      {isLoading ? <Spin /> : children}
     </AuthContenxt.Provider>
   );
 }
